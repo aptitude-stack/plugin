@@ -1,0 +1,4 @@
+.DS_Store
+.uv-cache/
+.uv-tools/
+__pycache__/

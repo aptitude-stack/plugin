@@ -1,0 +1,34 @@
+{
+  "name": "aptitude",
+  "version": "0.1.0",
+  "description": "Find, install, and publish Aptitude skills.",
+  "author": {
+    "name": "Aptitude",
+    "url": "https://aptitude-registry.dev"
+  },
+  "homepage": "https://aptitude-registry.dev",
+  "repository": "https://github.com/aptitude-stack/aptitude-plugin",
+  "license": "MIT",
+  "keywords": ["aptitude", "skills", "mcp", "publishing"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Aptitude",
+    "shortDescription": "Find, install, and publish skills",
+    "longDescription": "Use Aptitude's released resolver MCP and publisher CLI to discover, install, and publish skills with explicit review before writes.",
+    "developerName": "Aptitude",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://aptitude-registry.dev",
+    "privacyPolicyURL": "https://github.com/aptitude-stack/aptitude-plugin/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/aptitude-stack/aptitude-plugin/blob/main/TERMS.md",
+    "defaultPrompt": [
+      "Find and install an Aptitude skill",
+      "Inspect a skill before installing it",
+      "Validate and publish this Aptitude skill"
+    ],
+    "brandColor": "#3775A9",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo.svg"
+  }
+}

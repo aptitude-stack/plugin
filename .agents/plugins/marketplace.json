@@ -1,0 +1,20 @@
+{
+  "name": "aptitude",
+  "interface": {
+    "displayName": "Aptitude"
+  },
+  "plugins": [
+    {
+      "name": "aptitude",
+      "source": {
+        "source": "local",
+        "path": "./plugins/aptitude"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
