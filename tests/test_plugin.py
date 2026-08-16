@@ -15,12 +15,12 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertEqual(marketplace["plugins"][0]["name"], "aptitude")
         self.assertEqual(marketplace["plugins"][0]["source"]["path"], "./plugins/aptitude")
         self.assertEqual(manifest["name"], "aptitude")
-        self.assertEqual(manifest["version"], "0.1.1")
+        self.assertEqual(manifest["version"], "0.1.2")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["mcpServers"], "./.mcp.json")
-        self.assertEqual(manifest["interface"]["logo"], "./assets/logo.svg")
-        self.assertEqual(manifest["interface"]["composerIcon"], "./assets/logo.svg")
-        self.assertTrue((ROOT / "plugins/aptitude/assets/logo.svg").is_file())
+        self.assertEqual(manifest["interface"]["logo"], "./assets/logo.png")
+        self.assertEqual(manifest["interface"]["composerIcon"], "./assets/logo.png")
+        self.assertTrue((ROOT / "plugins/aptitude/assets/logo.png").is_file())
         self.assertEqual(
             manifest["interface"]["privacyPolicyURL"],
             "https://github.com/aptitude-stack/plugin/blob/main/PRIVACY.md",
