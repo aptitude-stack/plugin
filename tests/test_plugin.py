@@ -32,6 +32,11 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertTrue((ROOT / "PRIVACY.md").is_file())
         self.assertTrue((ROOT / "TERMS.md").is_file())
         self.assertTrue((ROOT / "tests/smoke.sh").is_file())
+        readme = (ROOT / "README.md").read_text()
+        self.assertIn(
+            "--sparse .agents/plugins --sparse plugins/aptitude",
+            readme,
+        )
         self.assertEqual(
             mcp["mcpServers"]["aptitude"],
             {
