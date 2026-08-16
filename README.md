@@ -11,7 +11,7 @@ Plugins are installable packages that can combine skills and MCP servers. This p
 Add this repository as a Git-backed marketplace:
 
 ```sh
-codex plugin marketplace add aptitude-stack/openai-plugin --sparse .agents/plugins
+codex plugin marketplace add aptitude-stack/plugin --sparse .agents/plugins
 ```
 
 Restart the ChatGPT desktop app, open the Plugins Directory, choose the **Aptitude** marketplace, and install the **Aptitude** plugin. The marketplace resolves the plugin from `plugins/aptitude`.

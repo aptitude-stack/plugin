@@ -23,11 +23,11 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertTrue((ROOT / "plugins/aptitude/assets/logo.svg").is_file())
         self.assertEqual(
             manifest["interface"]["privacyPolicyURL"],
-            "https://github.com/aptitude-stack/openai-plugin/blob/main/PRIVACY.md",
+            "https://github.com/aptitude-stack/plugin/blob/main/PRIVACY.md",
         )
         self.assertEqual(
             manifest["interface"]["termsOfServiceURL"],
-            "https://github.com/aptitude-stack/openai-plugin/blob/main/TERMS.md",
+            "https://github.com/aptitude-stack/plugin/blob/main/TERMS.md",
         )
         self.assertTrue((ROOT / "PRIVACY.md").is_file())
         self.assertTrue((ROOT / "TERMS.md").is_file())

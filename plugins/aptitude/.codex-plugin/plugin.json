@@ -7,7 +7,7 @@
     "url": "https://aptitude-registry.dev"
   },
   "homepage": "https://aptitude-registry.dev",
-  "repository": "https://github.com/aptitude-stack/openai-plugin",
+  "repository": "https://github.com/aptitude-stack/plugin",
   "license": "MIT",
   "keywords": ["aptitude", "skills", "mcp", "publishing"],
   "skills": "./skills/",
@@ -20,8 +20,8 @@
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
     "websiteURL": "https://aptitude-registry.dev",
-    "privacyPolicyURL": "https://github.com/aptitude-stack/openai-plugin/blob/main/PRIVACY.md",
-    "termsOfServiceURL": "https://github.com/aptitude-stack/openai-plugin/blob/main/TERMS.md",
+    "privacyPolicyURL": "https://github.com/aptitude-stack/plugin/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/aptitude-stack/plugin/blob/main/TERMS.md",
     "defaultPrompt": [
       "Find and install an Aptitude skill",
       "Inspect a skill before installing it",
