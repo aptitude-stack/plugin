@@ -15,7 +15,7 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertEqual(marketplace["plugins"][0]["name"], "aptitude")
         self.assertEqual(marketplace["plugins"][0]["source"]["path"], "./plugins/aptitude")
         self.assertEqual(manifest["name"], "aptitude")
-        self.assertEqual(manifest["version"], "0.1.0")
+        self.assertEqual(manifest["version"], "0.1.1")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["mcpServers"], "./.mcp.json")
         self.assertEqual(manifest["interface"]["logo"], "./assets/logo.svg")
