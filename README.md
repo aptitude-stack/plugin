@@ -2,19 +2,35 @@
 
 Aptitude is a registry for versioned AI-agent skills. Its resolver searches the registry, applies policy, resolves dependencies, and installs verified skill bundles. Its publisher validates a local skill folder before uploading it to the registry.
 
-This Codex plugin puts those two workflows in one place: find and install a skill through the Aptitude MCP, or inspect and publish a skill through the Aptitude publisher. It does not replace Aptitude's resolver or publisher; it calls their released interfaces.
+This Codex plugin packages both workflow instructions and the Aptitude resolver MCP: find and install a skill through Aptitude, or inspect and publish a local skill. It does not replace Aptitude's resolver or publisher; it calls their released interfaces.
+
+Plugins are installable packages that can combine skills and MCP servers. This plugin contains the `install-skill` and `publish-skill` skills plus the resolver MCP. See [OpenAI's plugin architecture](https://developers.openai.com/plugins/concepts/plugins).
 
 ## How to install
 
-From this repository root, open the local marketplace in Codex:
+Add this repository as a Git-backed marketplace:
 
 ```sh
-open "$(python3 -c 'from pathlib import Path; from urllib.parse import quote; print("codex://plugins/aptitude?marketplacePath=" + quote(str(Path(".agents/plugins/marketplace.json").resolve()), safe=""))')"
+codex plugin marketplace add aptitude-stack/openai-plugin --sparse .agents/plugins
 ```
 
-Select **Install** for Aptitude. The marketplace maps the local plugin entry to `plugins/aptitude`.
+Restart the ChatGPT desktop app, open the Plugins Directory, choose the **Aptitude** marketplace, and install the **Aptitude** plugin. The marketplace resolves the plugin from `plugins/aptitude`.
 
-When Codex configures the Aptitude MCP, provide `APTITUDE_READ_TOKEN`.
+To refresh it after a new release:
+
+```sh
+codex plugin marketplace upgrade aptitude
+```
+
+For local development instead, run this command from a checkout of this repository:
+
+```sh
+codex plugin marketplace add ./
+```
+
+Restart the desktop app and install from the local **Aptitude** marketplace. OpenAI documents Git and local marketplace sources, including sparse checkouts, in its [plugin packaging guide](https://developers.openai.com/plugins/build/plugins).
+
+When Codex configures the Aptitude MCP, provide `APTITUDE_READ_TOKEN`. Do not put it in this repository.
 
 ## How to use
 
