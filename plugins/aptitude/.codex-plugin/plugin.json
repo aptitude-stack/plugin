@@ -1,6 +1,6 @@
 {
   "name": "aptitude",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Find, install, and publish Aptitude skills.",
   "author": {
     "name": "Aptitude",
@@ -28,7 +28,7 @@
       "Validate and publish this Aptitude skill"
     ],
     "brandColor": "#3775A9",
-    "composerIcon": "./assets/logo.png",
-    "logo": "./assets/logo.png"
+    "composerIcon": "./assets/favicon.svg",
+    "logo": "./assets/favicon.svg"
   }
 }
