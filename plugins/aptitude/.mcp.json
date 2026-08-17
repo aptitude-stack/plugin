@@ -1,11 +1,11 @@
 {
   "mcpServers": {
-    "aptitude": {
+    "resolver": {
       "command": "uvx",
       "args": ["aptitude-resolver", "mcp"],
       "env_vars": ["APTITUDE_READ_TOKEN"]
     },
-    "aptitude-publisher": {
+    "publisher": {
       "command": "uvx",
       "args": ["aptitude-publisher", "mcp"],
       "env_vars": [

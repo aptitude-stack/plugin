@@ -38,7 +38,7 @@ class AptitudePluginTests(unittest.TestCase):
             readme,
         )
         self.assertEqual(
-            mcp["mcpServers"]["aptitude"],
+            mcp["mcpServers"]["resolver"],
             {
                 "command": "uvx",
                 "args": ["aptitude-resolver", "mcp"],
@@ -46,7 +46,7 @@ class AptitudePluginTests(unittest.TestCase):
             },
         )
         self.assertEqual(
-            mcp["mcpServers"]["aptitude-publisher"],
+            mcp["mcpServers"]["publisher"],
             {
                 "command": "uvx",
                 "args": ["aptitude-publisher", "mcp"],
