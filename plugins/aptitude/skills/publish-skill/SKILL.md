@@ -5,19 +5,28 @@ description: Use when validating and publishing a local skill folder to the Apti
 
 # Publish Aptitude Skill
 
-Use the released publisher CLI. Do not construct registry HTTP requests or upload bundles yourself.
+Use the Aptitude Publisher MCP. Do not construct registry HTTP requests or upload bundles yourself.
 
-1. Confirm the path is a local skill folder, then run:
+1. Confirm the path is a local skill folder, then call `aptitude_publisher_inspect_skill`:
 
-   ```sh
-   uvx aptitude-publisher inspect <skill-path>
+   ```json
+   {"skill_path": "<skill-path>"}
    ```
 
-2. Stop if inspection fails. Summarize the evaluated path and result.
-3. Get explicit confirmation before publishing that same path. Then run:
+2. Inspection writes local `.publisher_artifacts/` but does not upload. Stop if it
+   returns a blocked result; summarize the evaluated path and result.
+3. Review the returned slug, version, intent, validation, gate results, and
+   warnings. Get explicit confirmation to publish that same path with its
+   explicit slug and `create_skill` or `publish_version` intent.
+4. Call `aptitude_publisher_publish_skill` only after that confirmation:
 
-   ```sh
-   uvx aptitude-publisher publish <skill-path>
+   ```json
+   {
+     "skill_path": "<skill-path>",
+     "slug": "<evaluated-slug>",
+     "intent": "<evaluated-intent>",
+     "confirm_upload": true
+   }
    ```
 
-Use `--dry-run` when the user asks for validation without an upload. Do not print, repeat, or store tokens; the publisher reads its documented environment variables.
+For validation-only requests, stop after inspection. Do not print, repeat, or store tokens; the publisher reads its documented environment variables.

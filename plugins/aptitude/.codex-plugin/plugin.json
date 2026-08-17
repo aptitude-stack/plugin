@@ -15,7 +15,7 @@
   "interface": {
     "displayName": "Aptitude",
     "shortDescription": "Find, install, and publish skills",
-    "longDescription": "Use Aptitude's released resolver MCP and publisher CLI to discover, install, and publish skills with explicit review before writes.",
+    "longDescription": "Use Aptitude's released resolver and publisher MCPs to discover, install, and publish skills with explicit review before writes.",
     "developerName": "Aptitude",
     "category": "Developer Tools",
     "capabilities": ["Interactive", "Read", "Write"],
