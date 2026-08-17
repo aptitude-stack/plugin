@@ -28,7 +28,7 @@
       "Validate and publish this Aptitude skill"
     ],
     "brandColor": "#3775A9",
-    "composerIcon": "./assets/favicon.svg",
-    "logo": "./assets/favicon.svg"
+    "composerIcon": "./assets/profile-logo.png",
+    "logo": "./assets/profile-logo.png"
   }
 }
