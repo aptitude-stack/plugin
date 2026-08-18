@@ -17,7 +17,7 @@
     "shortDescription": "Find, install, and publish skills",
     "longDescription": "Use Aptitude's released resolver and publisher MCPs to discover, install, and publish skills with explicit review before writes.",
     "developerName": "Aptitude",
-    "category": "Developer Tools",
+    "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
     "websiteURL": "https://aptitude-registry.dev",
     "privacyPolicyURL": "https://github.com/aptitude-stack/plugin/blob/main/PRIVACY.md",
