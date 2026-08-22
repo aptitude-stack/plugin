@@ -152,20 +152,19 @@ class AptitudePluginTests(unittest.TestCase):
             "Post-read",
             "selection field's source",
             "contributing layers",
-            "### Success",
+            "### Report format",
             "- Action:",
-            "- Status: succeeded",
             "- Target:",
-            "- Outcome:",
-            "- Key result:",
-            "- Changes made:",
-            "- Next step:",
-            "### Failure",
-            "- Status: blocked|failed",
-            "- Reason: exact tool-provided reason",
+            "- Result:",
             "- Warnings:",
+            "- Changes:",
+            "- Next:",
         ):
             self.assertIn(phrase, normalized_reference)
+
+        self.assertNotIn("- Outcome:", normalized_reference)
+        self.assertNotIn("- Key result:", normalized_reference)
+        self.assertNotIn("- Changes made:", normalized_reference)
 
         self.assertIn(
             "Do not copy credentials, tokens, internal plans, or unrelated response fields.",

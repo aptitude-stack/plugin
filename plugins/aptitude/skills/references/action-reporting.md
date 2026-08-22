@@ -1,9 +1,9 @@
 # Aptitude Action Reporting
 
 Use this reference for every user-facing result from an Aptitude MCP action.
-Keep reports limited to the action, target, user-visible outcome, key result,
-changes, warnings, and safe next step. Do not copy credentials, tokens,
-internal plans, or unrelated response fields.
+Keep reports limited to the action, target, result, warnings, changes, and a
+safe next step. Do not copy credentials, tokens, internal plans, or unrelated
+response fields.
 Do not report telemetry.
 
 ## Publisher actions
@@ -43,26 +43,14 @@ Do not report telemetry.
   format, then report effective selection and each field's source, effective
   policy and aggregate source, contributing layers, and which layer won.
 
-### Success
+### Report format
 
 ```markdown
-- Action: <completed action>
-- Status: succeeded
+- Action: <inspection|publish|install|policy update>
 - Target: <skill, path, scope, registry, or configuration layer>
-- Outcome: <user-visible outcome>
-- Key result: <most important result>
-- Changes made: <changed files, registry state, or none>
-- Next step: <safe follow-up or none>
-```
-
-### Failure
-
-```markdown
-- Action: <attempted action>
-- Status: blocked|failed
-- Target: <skill, path, scope, registry, or configuration layer>
-- Reason: exact tool-provided reason
-- Warnings: <relevant warnings or none>
-- Changes made: <changes made or none>
-- Next step: <safe next action>
+- Result: <concise user-visible outcome, including status when useful>
+- Reason: <exact tool-provided reason; blocked or failed only>
+- Warnings: <relevant warnings; omit when none>
+- Changes: <changed files, registry state, or none>
+- Next: <safe follow-up; omit when none>
 ```
