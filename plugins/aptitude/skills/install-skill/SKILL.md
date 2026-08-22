@@ -6,6 +6,7 @@ description: Use when finding, evaluating, or installing an Aptitude skill into 
 # Install Aptitude Skill
 
 Use the Aptitude MCP. Do not use local resolver commands or install by a guessed name.
+Use the [shared action-reporting reference](../references/action-reporting.md) for the user-facing result.
 
 1. Search with `aptitude_search_skills`, then inspect promising candidates with
    `aptitude_inspect_skill`.

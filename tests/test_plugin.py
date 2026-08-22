@@ -15,7 +15,7 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertEqual(marketplace["plugins"][0]["name"], "aptitude")
         self.assertEqual(marketplace["plugins"][0]["source"]["path"], "./plugins/aptitude")
         self.assertEqual(manifest["name"], "aptitude")
-        self.assertEqual(manifest["version"], "0.1.4")
+        self.assertEqual(manifest["version"], "0.1.5")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["mcpServers"], "./.mcp.json")
         self.assertEqual(manifest["interface"]["logo"], "./assets/profile-logo.png")
@@ -116,6 +116,62 @@ class AptitudePluginTests(unittest.TestCase):
             preferences_skill.rindex("aptitude_show_policy"),
             preferences_skill.index(post_edit_report),
         )
+
+    def test_skills_share_action_reporting_reference(self) -> None:
+        reference_path = ROOT / "plugins/aptitude/skills/references/action-reporting.md"
+        self.assertTrue(reference_path.is_file())
+        reference = reference_path.read_text()
+        normalized_reference = " ".join(reference.split())
+
+        for skill_name in (
+            "publish-skill",
+            "install-skill",
+            "configure-resolver-preferences",
+        ):
+            skill = (ROOT / f"plugins/aptitude/skills/{skill_name}/SKILL.md").read_text()
+            self.assertIn("../references/action-reporting.md", skill)
+
+        for action in (
+            "aptitude_publisher_inspect_skill",
+            "aptitude_publisher_publish_skill",
+            "aptitude_search_skills",
+            "aptitude_inspect_skill",
+            "aptitude_resolve_skill",
+            "aptitude_preview_install_destinations",
+            "aptitude_install_skill",
+            "aptitude_show_policy",
+        ):
+            self.assertIn(action, normalized_reference)
+
+        for phrase in (
+            "local `.publisher_artifacts/`",
+            "Inspection is local and does not upload anything to the registry.",
+            "Keep the local inspection artifacts distinct from the registry change.",
+            "Initial read",
+            "Edit",
+            "Post-read",
+            "selection field's source",
+            "contributing layers",
+            "### Success",
+            "- Action:",
+            "- Status: succeeded",
+            "- Target:",
+            "- Outcome:",
+            "- Key result:",
+            "- Changes made:",
+            "- Next step:",
+            "### Failure",
+            "- Status: blocked|failed",
+            "- Reason: exact tool-provided reason",
+            "- Warnings:",
+        ):
+            self.assertIn(phrase, normalized_reference)
+
+        self.assertIn(
+            "Do not copy credentials, tokens, internal plans, or unrelated response fields.",
+            normalized_reference,
+        )
+        self.assertIn("Do not report telemetry.", normalized_reference)
 
 
 if __name__ == "__main__":

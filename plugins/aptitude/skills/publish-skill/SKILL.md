@@ -6,6 +6,7 @@ description: Use when validating and publishing a local skill folder to the Apti
 # Publish Aptitude Skill
 
 Use the Aptitude Publisher MCP. Do not construct registry HTTP requests or upload bundles yourself.
+Use the [shared action-reporting reference](../references/action-reporting.md) for the user-facing result.
 
 1. Confirm the path is a local skill folder, then call `aptitude_publisher_inspect_skill`:
 

@@ -1,6 +1,6 @@
 {
   "name": "aptitude",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Find, install, and publish Aptitude skills.",
   "author": {
     "name": "Aptitude",

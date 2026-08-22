@@ -7,6 +7,7 @@ description: Use when changing Aptitude resolver selection preferences or local 
 
 Use the Aptitude MCP. Do not put resolver preferences in `AGENTS.md` or other
 repository guidance.
+Use the [shared action-reporting reference](../references/action-reporting.md) for the user-facing result.
 
 1. Call `aptitude_show_policy` first for the target workspace:
 
