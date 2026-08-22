@@ -11,7 +11,7 @@
       "env_vars": [
         "APTITUDE_PUBLISH_TOKEN",
         "APTITUDE_READ_TOKEN",
-        "APTITUDE_REGISTRY_URL"
+        "OPENAI_API_KEY"
       ]
     }
   }
