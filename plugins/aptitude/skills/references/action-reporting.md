@@ -1,20 +1,19 @@
 # Aptitude Action Reporting
 
 Use this reference for every user-facing result from an Aptitude MCP action.
-Keep reports limited to the action, target, result, warnings, changes, and a
-safe next step. Do not copy credentials, tokens, internal plans, or unrelated
-response fields.
+Keep reports limited to the action, target, result, inspection, scores,
+warnings, changes, and a safe next step. Do not copy credentials, tokens,
+internal plans, or unrelated response fields.
 Do not report telemetry.
 
 ## Publisher actions
 
 - `aptitude_publisher_inspect_skill`: report the local skill path, evaluated
-  slug/version/intent, validation and gate result, warnings, and whether local `.publisher_artifacts/`
-  were written. Inspection is local and does not upload anything to the registry.
+  slug/version/intent, inspection result, validation and gate result, scores,
+  and warnings. Inspection is local and does not upload anything to the registry.
 - `aptitude_publisher_publish_skill`: report the confirmed slug/version, the
   registry target, the publish result, and the resulting registry location or
-  failure. Keep the local inspection artifacts distinct from the registry
-  change. Publish only after the existing explicit confirmation gate.
+  failure. Publish only after the existing explicit confirmation gate.
 
 ## Resolver actions
 
@@ -49,6 +48,8 @@ Do not report telemetry.
 - Action: <inspection|publish|install|policy update>
 - Target: <skill, path, scope, registry, or configuration layer>
 - Result: <concise user-visible outcome, including status when useful>
+- Inspection: <inspection status with validation and gate result; Publisher only>
+- Scores: <named score(s), or not scored; Publisher only>
 - Reason: <exact tool-provided reason; blocked or failed only>
 - Warnings: <relevant warnings; omit when none>
 - Changes: <changed files, registry state, or none>

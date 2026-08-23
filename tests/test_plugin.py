@@ -15,7 +15,7 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertEqual(marketplace["plugins"][0]["name"], "aptitude")
         self.assertEqual(marketplace["plugins"][0]["source"]["path"], "./plugins/aptitude")
         self.assertEqual(manifest["name"], "aptitude")
-        self.assertEqual(manifest["version"], "0.1.5")
+        self.assertEqual(manifest["version"], "0.1.6")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["mcpServers"], "./.mcp.json")
         self.assertEqual(manifest["interface"]["logo"], "./assets/profile-logo.png")
@@ -144,9 +144,9 @@ class AptitudePluginTests(unittest.TestCase):
             self.assertIn(action, normalized_reference)
 
         for phrase in (
-            "local `.publisher_artifacts/`",
             "Inspection is local and does not upload anything to the registry.",
-            "Keep the local inspection artifacts distinct from the registry change.",
+            "inspection result",
+            "scores",
             "Initial read",
             "Edit",
             "Post-read",
@@ -156,6 +156,8 @@ class AptitudePluginTests(unittest.TestCase):
             "- Action:",
             "- Target:",
             "- Result:",
+            "- Inspection:",
+            "- Scores:",
             "- Warnings:",
             "- Changes:",
             "- Next:",
@@ -165,6 +167,7 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertNotIn("- Outcome:", normalized_reference)
         self.assertNotIn("- Key result:", normalized_reference)
         self.assertNotIn("- Changes made:", normalized_reference)
+        self.assertNotIn("publisher_artifacts", normalized_reference)
 
         self.assertIn(
             "Do not copy credentials, tokens, internal plans, or unrelated response fields.",
