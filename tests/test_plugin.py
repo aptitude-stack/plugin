@@ -145,6 +145,8 @@ class AptitudePluginTests(unittest.TestCase):
 
         for phrase in (
             "Inspection is local and does not upload anything to the registry.",
+            "`slug-name@vx.y.z`",
+            "standalone version in backticks",
             "inspection result",
             "scores",
             "Initial read",
@@ -153,7 +155,7 @@ class AptitudePluginTests(unittest.TestCase):
             "selection field's source",
             "contributing layers",
             "### Report format",
-            "- Action:",
+            "**Action: <inspection|publish|install|policy update>**",
             "- Target:",
             "- Result:",
             "- Inspection:",
@@ -165,6 +167,7 @@ class AptitudePluginTests(unittest.TestCase):
             self.assertIn(phrase, normalized_reference)
 
         self.assertNotIn("- Outcome:", normalized_reference)
+        self.assertNotIn("- Action:", normalized_reference)
         self.assertNotIn("- Key result:", normalized_reference)
         self.assertNotIn("- Changes made:", normalized_reference)
         self.assertNotIn("publisher_artifacts", normalized_reference)

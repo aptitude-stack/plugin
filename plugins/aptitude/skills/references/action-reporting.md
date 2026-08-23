@@ -6,12 +6,15 @@ warnings, changes, and a safe next step. Do not copy credentials, tokens,
 internal plans, or unrelated response fields.
 Do not report telemetry.
 
+Format a skill coordinate as `slug-name@vx.y.z`. Use a standalone version in
+backticks, such as `v0.1.0`.
+
 ## Publisher actions
 
 - `aptitude_publisher_inspect_skill`: report the local skill path, evaluated
-  slug/version/intent, inspection result, validation and gate result, scores,
+  coordinate and intent, inspection result, validation and gate result, scores,
   and warnings. Inspection is local and does not upload anything to the registry.
-- `aptitude_publisher_publish_skill`: report the confirmed slug/version, the
+- `aptitude_publisher_publish_skill`: report the confirmed coordinate, the
   registry target, the publish result, and the resulting registry location or
   failure. Publish only after the existing explicit confirmation gate.
 
@@ -19,9 +22,9 @@ Do not report telemetry.
 
 - `aptitude_search_skills`: report the search target and the returned candidate
   summary, including the selected candidate when one is chosen.
-- `aptitude_inspect_skill`: report the inspected skill/version and the
+- `aptitude_inspect_skill`: report the inspected coordinate and the
   user-relevant metadata, validation, and warnings.
-- `aptitude_resolve_skill`: report the selected coordinate/version and the
+- `aptitude_resolve_skill`: report the selected coordinate and the
   policy outcome. Summarize the result without reproducing internal planning
   details or unrelated fields.
 - `aptitude_preview_install_destinations`: report the requested agents and
@@ -45,7 +48,7 @@ Do not report telemetry.
 ### Report format
 
 ```markdown
-- Action: <inspection|publish|install|policy update>
+**Action: <inspection|publish|install|policy update>**
 - Target: <skill, path, scope, registry, or configuration layer>
 - Result: <concise user-visible outcome, including status when useful>
 - Inspection: <inspection status with validation and gate result; Publisher only>
