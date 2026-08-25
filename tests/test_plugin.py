@@ -6,6 +6,20 @@ from pathlib import Path
 ROOT = Path(__file__).parents[1]
 
 
+def parse_frontmatter(skill_text: str) -> dict[str, str]:
+    if not skill_text.startswith("---\n"):
+        raise AssertionError("skill is missing a YAML frontmatter block")
+    parts = skill_text[4:].split("\n---\n", 1)
+    if len(parts) != 2:
+        raise AssertionError("skill is missing a YAML frontmatter closing fence")
+    fields: dict[str, str] = {}
+    for line in parts[0].splitlines():
+        key, separator, value = line.partition(": ")
+        if separator:
+            fields[key] = value
+    return fields
+
+
 class AptitudePluginTests(unittest.TestCase):
     def test_marketplace_manifest_and_skills_are_wired_to_public_interfaces(self) -> None:
         marketplace = json.loads((ROOT / ".agents/plugins/marketplace.json").read_text())
@@ -15,7 +29,7 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertEqual(marketplace["plugins"][0]["name"], "aptitude")
         self.assertEqual(marketplace["plugins"][0]["source"]["path"], "./plugins/aptitude")
         self.assertEqual(manifest["name"], "aptitude")
-        self.assertEqual(manifest["version"], "0.1.6")
+        self.assertEqual(manifest["version"], "0.1.7")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["mcpServers"], "./.mcp.json")
         self.assertEqual(manifest["interface"]["logo"], "./assets/profile-logo.png")
@@ -37,6 +51,12 @@ class AptitudePluginTests(unittest.TestCase):
             "--sparse .agents/plugins --sparse plugins/aptitude",
             readme,
         )
+        self.assertIn(
+            "without installing project/skill files or mutating the registry",
+            readme,
+        )
+        self.assertNotIn("without file writes", readme)
+        self.assertNotIn("resolves without file\nwithout installing", readme)
         self.assertEqual(
             mcp["mcpServers"]["resolver"],
             {
@@ -54,22 +74,171 @@ class AptitudePluginTests(unittest.TestCase):
                     "APTITUDE_PUBLISH_TOKEN",
                     "APTITUDE_READ_TOKEN",
                     "APTITUDE_REGISTRY_URL",
+                    "OPENAI_API_KEY",
                 ],
             },
         )
 
         install_skill = (ROOT / "plugins/aptitude/skills/install-skill/SKILL.md").read_text()
+        self.assertIn("../inspect-for-install/SKILL.md", install_skill)
         self.assertIn("aptitude_preview_install_destinations", install_skill)
         self.assertIn("aptitude_install_skill", install_skill)
         self.assertIn("explicit confirmation", install_skill)
-        self.assertNotIn("aptitude install", install_skill)
+        self.assertIn("user requests installing", install_skill)
+        self.assertIn("select_slug", install_skill)
+        self.assertIn('"select_slug": "<reviewed-slug>"', install_skill)
+        self.assertIn('"version": "<reviewed-version>"', install_skill)
+        self.assertIn('"query": "<reviewed-query>"', install_skill)
+        self.assertIn('"agents": ["<preview-agent>"]', install_skill)
+        self.assertIn('"scope": "<preview-scope>"', install_skill)
+        self.assertIn('"cwd": "<preview-cwd>"', install_skill)
+        self.assertIn('"export_root": null', install_skill)
+        self.assertIn("No fresh unpinned resolution", install_skill)
+        self.assertLess(
+            install_skill.index("aptitude_preview_install_destinations"),
+            install_skill.index("explicit confirmation"),
+        )
+        self.assertLess(
+            install_skill.index("explicit confirmation"),
+            install_skill.index("aptitude_install_skill"),
+        )
+        for inspection_tool in (
+            "aptitude_search_skills",
+            "aptitude_inspect_skill",
+            "aptitude_resolve_skill",
+        ):
+            self.assertNotIn(inspection_tool, install_skill)
 
         publish_skill = (ROOT / "plugins/aptitude/skills/publish-skill/SKILL.md").read_text()
-        self.assertIn("aptitude_publisher_inspect_skill", publish_skill)
+        self.assertIn("../inspect-for-publish/SKILL.md", publish_skill)
         self.assertIn("aptitude_publisher_publish_skill", publish_skill)
+        self.assertIn("user requests publishing", publish_skill)
         self.assertIn('"confirm_upload": true', publish_skill)
+        self.assertIn('"skill_path": "<skill-path>"', publish_skill)
+        self.assertIn('"slug": "<evaluated-slug>"', publish_skill)
+        self.assertIn('"version": "<reviewed-version>"', publish_skill)
+        self.assertIn('"intent": "<evaluated-intent>"', publish_skill)
         self.assertIn("explicit confirmation", publish_skill)
+        self.assertIn("fresh receipt", publish_skill)
+        self.assertIn("stale", publish_skill)
+        self.assertIn("auto-refresh", publish_skill)
+        self.assertIn("approved plan", publish_skill)
+        self.assertIn("exact confirmed identity still matches", publish_skill)
+        self.assertIn("refreshed result is allowed", publish_skill)
+        self.assertIn(
+            "If identity changes or the result is blocked, do not upload",
+            publish_skill,
+        )
+        self.assertIn("without a second confirmation", publish_skill)
+        self.assertLess(
+            publish_skill.index("auto-refresh"),
+            publish_skill.index("aptitude_publisher_publish_skill"),
+        )
+        self.assertLess(
+            publish_skill.index("explicit confirmation"),
+            publish_skill.index("aptitude_publisher_publish_skill"),
+        )
+        self.assertIn('"registry_url": "<reviewed-registry-url>"', publish_skill)
+        self.assertIn("registry target unchanged", publish_skill)
+        self.assertNotIn("aptitude_publisher_inspect_skill", publish_skill)
         self.assertIn("Do not print, repeat, or store tokens", publish_skill)
+
+        self.assertEqual(
+            {
+                path.parent.name
+                for path in (ROOT / "plugins/aptitude/skills").glob("*/SKILL.md")
+            },
+            {
+                "configure-resolver-preferences",
+                "inspect-for-install",
+                "inspect-for-publish",
+                "install-skill",
+                "publish-skill",
+            },
+        )
+
+        inspect_publish = (
+            ROOT / "plugins/aptitude/skills/inspect-for-publish/SKILL.md"
+        ).read_text()
+        self.assertLess(len(inspect_publish.split()), 500)
+        for phrase in (
+            "name: inspect-for-publish",
+            "description: Use when",
+            "aptitude_publisher_inspect_skill",
+            "local",
+            "does not upload",
+            "does not mutate",
+            "path",
+            "coordinate",
+            "intent",
+            "validation",
+            "gates",
+            "maturity",
+            "security",
+            "overall",
+            "out of 10",
+            "performance",
+            "non-persisted",
+            "warnings",
+            "receipt",
+            "fresh",
+            "reuse",
+            "../references/action-reporting.md",
+        ):
+            self.assertIn(phrase, inspect_publish)
+        self.assertNotIn("aptitude_publisher_publish_skill", inspect_publish)
+        self.assertNotIn("confirm_upload", inspect_publish)
+        self.assertNotRegex(inspect_publish.lower(), r"\btrust(?:_tier)?\b")
+
+        inspect_install = (
+            ROOT / "plugins/aptitude/skills/inspect-for-install/SKILL.md"
+        ).read_text()
+        self.assertLess(len(inspect_install.split()), 500)
+        for phrase in (
+            "name: inspect-for-install",
+            "description: Use when",
+            "aptitude_search_skills",
+            "aptitude_inspect_skill",
+            "aptitude_resolve_skill",
+            "selected coordinate",
+            "maturity",
+            "security",
+            "overall",
+            "out of 10",
+            "warnings",
+            "policy outcome",
+            "safe next step",
+            "does not install skill/project files",
+            "does not mutate the registry",
+            "advisory cache",
+            "../references/action-reporting.md",
+        ):
+            self.assertIn(phrase, inspect_install)
+        self.assertNotIn("aptitude_install_skill", inspect_install)
+        self.assertNotIn("There are no file writes", inspect_install)
+        self.assertNotRegex(inspect_install.lower(), r"\btrust(?:_tier)?\b")
+
+        self.assertIn(".publisher_artifacts/", inspect_publish)
+        self.assertIn("inspection receipt", inspect_publish)
+        self.assertIn("no upload or Registry mutation", inspect_publish)
+
+        self.assertEqual(
+            manifest["description"],
+            "Inspect or publish local skills; inspect or install registry skills.",
+        )
+        self.assertEqual(
+            manifest["interface"]["shortDescription"],
+            "Inspect, publish, and install skills",
+        )
+        self.assertEqual(
+            manifest["interface"]["defaultPrompt"],
+            [
+                "Inspect a local skill before publishing",
+                "Publish a local skill to Aptitude",
+                "Inspect a registry skill before installing",
+                "Find and install an Aptitude skill",
+            ],
+        )
 
         preferences_skill = (
             ROOT / "plugins/aptitude/skills/configure-resolver-preferences/SKILL.md"
@@ -117,6 +286,13 @@ class AptitudePluginTests(unittest.TestCase):
             preferences_skill.index(post_edit_report),
         )
 
+    def test_skill_frontmatter_names_and_descriptions(self) -> None:
+        for skill_path in sorted((ROOT / "plugins/aptitude/skills").glob("*/SKILL.md")):
+            metadata = parse_frontmatter(skill_path.read_text())
+            self.assertEqual(metadata.get("name"), skill_path.parent.name)
+            self.assertTrue(metadata.get("description", "").startswith("Use when "))
+            self.assertNotIn("\n", metadata["description"])
+
     def test_skills_share_action_reporting_reference(self) -> None:
         reference_path = ROOT / "plugins/aptitude/skills/references/action-reporting.md"
         self.assertTrue(reference_path.is_file())
@@ -124,6 +300,8 @@ class AptitudePluginTests(unittest.TestCase):
         normalized_reference = " ".join(reference.split())
 
         for skill_name in (
+            "inspect-for-publish",
+            "inspect-for-install",
             "publish-skill",
             "install-skill",
             "configure-resolver-preferences",
@@ -155,7 +333,17 @@ class AptitudePluginTests(unittest.TestCase):
             "selection field's source",
             "contributing layers",
             "### Report format",
-            "**Action: <inspection|publish|install|policy update>**",
+            "Scores: <named canonical scores, or not scored; inspection actions when available>",
+            "maturity, security, and overall scores are displayed out of 10",
+            "machine-normalized values in the range [0,1]",
+            "maturity_score",
+            "security_score",
+            "overall_score",
+            "human-readable results render them as `/10`",
+            "Performance evidence is non-persisted",
+            "Do not report trust or trust_tier labels or fields",
+            "allowed_trust_tiers",
+            "**Action: <inspect-for-publish|inspect-for-install|publish|install|policy update>**",
             "- Target:",
             "- Result:",
             "- Inspection:",

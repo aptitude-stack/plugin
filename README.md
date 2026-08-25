@@ -2,9 +2,16 @@
 
 Aptitude is a registry for versioned AI-agent skills. Its resolver searches the registry, applies policy, resolves dependencies, and installs verified skill bundles. Its publisher validates a local skill folder before uploading it to the registry.
 
-This Codex plugin packages workflow instructions plus the Aptitude resolver and publisher MCPs: find and install a skill through Aptitude, or inspect and publish a local skill. It does not replace Aptitude's resolver or publisher; it calls their released interfaces.
+This Codex plugin packages four Aptitude workflows plus the resolver and
+publisher MCPs: inspect a local skill before publishing, publish a local skill,
+inspect a registry skill before installing, and install a registry skill. It
+does not replace Aptitude's resolver or publisher; it calls their released
+interfaces.
 
-Plugins are installable packages that can combine skills and MCP servers. This plugin contains the `install-skill` and `publish-skill` skills plus the resolver and publisher MCPs. See [OpenAI's plugin architecture](https://developers.openai.com/plugins/concepts/plugins).
+Plugins are installable packages that can combine skills and MCP servers. This
+plugin contains the `inspect-for-publish`, `publish-skill`,
+`inspect-for-install`, and `install-skill` workflows, plus resolver preference
+configuration. See [OpenAI's plugin architecture](https://developers.openai.com/plugins/concepts/plugins).
 
 ## How to install
 
@@ -30,16 +37,28 @@ codex plugin marketplace add ./
 
 Restart the desktop app and install from the local **Aptitude** marketplace. OpenAI documents Git and local marketplace sources, including sparse checkouts, in its [plugin packaging guide](https://developers.openai.com/plugins/build/plugins).
 
-When Codex configures the Aptitude MCPs, provide `APTITUDE_READ_TOKEN`; the publisher also needs `APTITUDE_PUBLISH_TOKEN` and its registry URL. Do not put credentials in this repository.
+When Codex configures the Aptitude MCPs, provide `APTITUDE_READ_TOKEN`; the
+publisher also needs `APTITUDE_PUBLISH_TOKEN`, `OPENAI_API_KEY` for its
+evaluator, and optionally `APTITUDE_REGISTRY_URL` for a custom registry target.
+Do not put credentials in this repository.
 
 ## How to use
 
 ### Install a skill
 
-Ask Codex to find and install an Aptitude skill. The `install-skill` workflow searches, inspects, resolves, and previews destinations before it asks for confirmation. You must provide the target agent and scope before it writes files.
+Ask Codex to inspect a registry skill before installing it. The
+`inspect-for-install` workflow searches, inspects, and resolves
+without installing project/skill files or mutating the registry; advisory cache
+updates may occur. Then the `install-skill` workflow previews destinations and
+asks for confirmation. You must provide the selected coordinate, target agent,
+and scope before it writes files.
 
 ### Publish a skill
 
-Ask Codex to publish a local skill folder. The `publish-skill` workflow calls `aptitude_publisher_inspect_skill` first and stops on failed checks. It asks for confirmation before `aptitude_publisher_publish_skill` uploads to the registry.
+Ask Codex to inspect a local skill folder before publishing it. The
+`inspect-for-publish` workflow evaluates it locally and reports validation,
+gates, canonical scores, warnings, and receipt metadata without uploading.
+Then the `publish-skill` workflow asks for confirmation before
+`aptitude_publisher_publish_skill` uploads to the registry.
 
 The publisher reads its publish token from its documented environment variables; never place a token in this repository or a prompt.

@@ -6,6 +6,18 @@ warnings, changes, and a safe next step. Do not copy credentials, tokens,
 internal plans, or unrelated response fields.
 Do not report telemetry.
 
+Canonical maturity, security, and overall scores are displayed out of 10;
+machine-normalized values in the range [0,1] are reported for machine
+consumers. Performance evidence is non-persisted and must be labeled as such
+when present. Do not report trust or trust_tier labels or fields in skill action
+reports. Resolver
+preference or policy reports may include `allowed_trust_tiers` only as the
+configured policy field.
+
+Use the canonical fields `maturity_score`, `security_score`, and
+`overall_score`; human-readable results render them as `/10`, while machine
+formats retain their normalized values.
+
 Format a skill coordinate as `slug-name@vx.y.z`. Use a standalone version in
 backticks, such as `v0.1.0`.
 
@@ -13,7 +25,9 @@ backticks, such as `v0.1.0`.
 
 - `aptitude_publisher_inspect_skill`: report the local skill path, evaluated
   coordinate and intent, inspection result, validation and gate result, scores,
-  and warnings. Inspection is local and does not upload anything to the registry.
+  non-persisted performance evidence when present, warnings, and receipt
+  freshness or reuse metadata. Inspection is local and does not upload anything
+  to the registry.
 - `aptitude_publisher_publish_skill`: report the confirmed coordinate, the
   registry target, the publish result, and the resulting registry location or
   failure. Publish only after the existing explicit confirmation gate.
@@ -48,11 +62,11 @@ backticks, such as `v0.1.0`.
 ### Report format
 
 ```markdown
-**Action: <inspection|publish|install|policy update>**
+**Action: <inspect-for-publish|inspect-for-install|publish|install|policy update>**
 - Target: <skill, path, scope, registry, or configuration layer>
 - Result: <concise user-visible outcome, including status when useful>
 - Inspection: <inspection status with validation and gate result; Publisher only>
-- Scores: <named score(s), or not scored; Publisher only>
+- Scores: <named canonical scores, or not scored; inspection actions when available>
 - Reason: <exact tool-provided reason; blocked or failed only>
 - Warnings: <relevant warnings; omit when none>
 - Changes: <changed files, registry state, or none>

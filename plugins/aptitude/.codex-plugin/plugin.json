@@ -1,7 +1,7 @@
 {
   "name": "aptitude",
-  "version": "0.1.6",
-  "description": "Find, install, and publish Aptitude skills.",
+  "version": "0.1.7",
+  "description": "Inspect or publish local skills; inspect or install registry skills.",
   "author": {
     "name": "Aptitude",
     "url": "https://aptitude-registry.dev"
@@ -14,7 +14,7 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Aptitude",
-    "shortDescription": "Find, install, and publish skills",
+    "shortDescription": "Inspect, publish, and install skills",
     "longDescription": "Use Aptitude's released resolver and publisher MCPs to discover, install, and publish skills with explicit review before writes.",
     "developerName": "Aptitude",
     "category": "Productivity",
@@ -23,9 +23,10 @@
     "privacyPolicyURL": "https://github.com/aptitude-stack/plugin/blob/main/PRIVACY.md",
     "termsOfServiceURL": "https://github.com/aptitude-stack/plugin/blob/main/TERMS.md",
     "defaultPrompt": [
-      "Find and install an Aptitude skill",
-      "Inspect a skill before installing it",
-      "Validate and publish this Aptitude skill"
+      "Inspect a local skill before publishing",
+      "Publish a local skill to Aptitude",
+      "Inspect a registry skill before installing",
+      "Find and install an Aptitude skill"
     ],
     "brandColor": "#3775A9",
     "composerIcon": "./assets/profile-logo.png",
