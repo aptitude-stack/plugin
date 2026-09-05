@@ -1,5 +1,5 @@
 ---
-name: prepare-aptitude-skill
+name: adapt-skill
 description: Use when adapting an existing agent skill that lacks Aptitude metadata or needs local Aptitude compatibility checks.
 ---
 
