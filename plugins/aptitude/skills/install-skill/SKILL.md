@@ -7,7 +7,10 @@ description: Use when a user requests installing an Aptitude registry skill into
 
 This is the preview and mutation workflow. If no candidate and destination were
 selected together, use [inspect-for-install](../inspect-for-install/SKILL.md)
-first. Do not install by a guessed name.
+first, including its project evidence scan before searching and comparing
+candidates. Reuse evidence already gathered for the same project; do not repeat
+the scan after selection or replace an explicitly selected skill. Do not install
+by a guessed name.
 
 Use the Aptitude MCP. Do not use local resolver commands.
 Use the [shared action-reporting reference](../references/action-reporting.md) for the user-facing result.
