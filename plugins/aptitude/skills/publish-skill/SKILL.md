@@ -5,9 +5,10 @@ description: Use when a user requests publishing a local skill to the Aptitude r
 
 # Publish Aptitude Skill
 
-This is the mutation workflow. If no reviewed inspection exists for the same
-path and coordinate, use [inspect-for-publish](../inspect-for-publish/SKILL.md)
-first. Do not duplicate that inspection workflow here.
+This is the approval and mutation workflow. If no selected path/registry target
+and reviewed inspection exist, use
+[inspect-for-publish](../inspect-for-publish/SKILL.md) first. Do not duplicate
+discovery or publish a guessed path.
 
 Use the Aptitude Publisher MCP. Do not construct registry HTTP requests or
 upload bundles yourself. The Publisher reuses a fresh receipt or, under the
@@ -17,12 +18,16 @@ and the refreshed result is allowed. If identity changes or the result is blocke
 or report success.
 Use the [shared action-reporting reference](../references/action-reporting.md) for the user-facing result.
 
-1. Confirm the reviewed local path, exact slug, version, intent, and exact
-   `registry_url`. Require the payload's `skill_path`, `slug`, `version`,
-   `intent`, and `registry_url` identity to match the reviewed identity. Get
-   explicit confirmation to publish that same coordinate and target; keep the
-   registry target unchanged from review through publish.
-2. Call `aptitude_publisher_publish_skill` only after that confirmation:
+After the user selects a candidate and registry target, treat the inspection
+report as the publication preview:
+
+1. Show the exact reviewed local path, slug, version, intent, registry target,
+   scores, gates, and warnings. Ask for one explicit confirmation (one approval)
+   of that full publication plan. Require the payload's `skill_path`, `slug`, `version`, `intent`, and
+   `registry_url` to match the preview.
+2. After approval, call `aptitude_publisher_publish_skill` with the exact
+   reviewed identity and target. Keep the registry target unchanged from
+   preview through publish:
 
    ```json
    {

@@ -21,6 +21,22 @@ formats retain their normalized values.
 Format a skill coordinate as `slug-name@vx.y.z`. Use a standalone version in
 backticks, such as `v0.1.0`.
 
+## Common interaction shape
+
+Use the same three phases for installation and publication:
+
+1. **Discover and select:** show decision-useful candidates and ask one combined
+   selection question that includes all inputs needed to build the preview.
+2. **Preview:** inspect or resolve without mutation, show the exact target and
+   complete plan, then ask for one approval.
+3. **Execute and report:** mutate only after approval, using the exact reviewed
+   inputs, then report changes or the precise blocker.
+
+For installation candidates, include purpose, fit, canonical scores,
+dependencies, and warnings. For publication candidates, include local path,
+purpose, available identity, and registry target. Do not ask separate questions
+for fields that can be collected in the combined selection.
+
 ## Publisher actions
 
 - `aptitude_publisher_inspect_skill`: report the local skill path, evaluated
@@ -70,5 +86,6 @@ backticks, such as `v0.1.0`.
 - Reason: <exact tool-provided reason; blocked or failed only>
 - Warnings: <relevant warnings; omit when none>
 - Changes: <changed files, registry state, or none>
-- Next: <safe follow-up; omit when none>
+
+Next: <safe follow-up; omit when none>
 ```

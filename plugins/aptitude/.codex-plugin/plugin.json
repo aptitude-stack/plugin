@@ -1,6 +1,6 @@
 {
   "name": "aptitude",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "Inspect or publish local skills; inspect or install registry skills.",
   "author": {
     "name": "Aptitude",

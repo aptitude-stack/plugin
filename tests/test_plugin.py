@@ -29,7 +29,7 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertEqual(marketplace["plugins"][0]["name"], "aptitude")
         self.assertEqual(marketplace["plugins"][0]["source"]["path"], "./plugins/aptitude")
         self.assertEqual(manifest["name"], "aptitude")
-        self.assertEqual(manifest["version"], "0.1.7")
+        self.assertEqual(manifest["version"], "0.1.9")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["mcpServers"], "./.mcp.json")
         self.assertEqual(manifest["interface"]["logo"], "./assets/profile-logo.png")
@@ -217,6 +217,24 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertNotIn("aptitude_install_skill", inspect_install)
         self.assertNotIn("There are no file writes", inspect_install)
         self.assertNotRegex(inspect_install.lower(), r"\btrust(?:_tier)?\b")
+        self.assertIn("which one to install", inspect_install.lower())
+        self.assertIn("purpose", inspect_install)
+        self.assertIn("dependencies", inspect_install)
+        self.assertIn("one combined", inspect_install)
+        self.assertIn("target agents", inspect_install)
+        self.assertIn("scope", inspect_install)
+        self.assertIn("after the user selects", install_skill.lower())
+        self.assertIn("preview", install_skill)
+        self.assertIn("one approval", install_skill)
+        self.assertIn("exact reviewed", install_skill)
+
+        self.assertIn("which one to publish", inspect_publish.lower())
+        self.assertIn("plausible local skill", inspect_publish)
+        self.assertIn("registry target", inspect_publish)
+        self.assertIn("after the user selects", publish_skill.lower())
+        self.assertIn("preview", publish_skill)
+        self.assertIn("one approval", publish_skill)
+        self.assertIn("exact reviewed", publish_skill)
 
         self.assertIn(".publisher_artifacts/", inspect_publish)
         self.assertIn("inspection receipt", inspect_publish)
@@ -350,9 +368,12 @@ class AptitudePluginTests(unittest.TestCase):
             "- Scores:",
             "- Warnings:",
             "- Changes:",
-            "- Next:",
+            "Next:",
         ):
             self.assertIn(phrase, normalized_reference)
+
+        self.assertIn("\n\nNext: <safe follow-up; omit when none>", reference)
+        self.assertNotIn("\n- Next:", reference)
 
         self.assertNotIn("- Outcome:", normalized_reference)
         self.assertNotIn("- Action:", normalized_reference)
@@ -365,6 +386,12 @@ class AptitudePluginTests(unittest.TestCase):
             normalized_reference,
         )
         self.assertIn("Do not report telemetry.", normalized_reference)
+        for phase in (
+            "Discover and select",
+            "Preview",
+            "Execute and report",
+        ):
+            self.assertIn(phase, normalized_reference)
 
 
 if __name__ == "__main__":
