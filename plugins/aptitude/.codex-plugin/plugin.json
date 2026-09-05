@@ -1,7 +1,7 @@
 {
   "name": "aptitude",
-  "version": "0.1.9",
-  "description": "Inspect or publish local skills; inspect or install registry skills.",
+  "version": "0.1.10",
+  "description": "Prepare, inspect, publish, and install skills.",
   "author": {
     "name": "Aptitude",
     "url": "https://aptitude-registry.dev"
@@ -14,8 +14,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Aptitude",
-    "shortDescription": "Inspect, publish, and install skills",
-    "longDescription": "Use Aptitude's released resolver and publisher MCPs to discover, install, and publish skills with explicit review before writes.",
+    "shortDescription": "Prepare, inspect, publish, and install skills",
+    "longDescription": "Use Aptitude's released resolver and publisher MCPs to adapt existing skills and to discover, install, and publish skills with explicit review before writes.",
     "developerName": "Aptitude",
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
@@ -23,6 +23,7 @@
     "privacyPolicyURL": "https://github.com/aptitude-stack/plugin/blob/main/PRIVACY.md",
     "termsOfServiceURL": "https://github.com/aptitude-stack/plugin/blob/main/TERMS.md",
     "defaultPrompt": [
+      "Prepare an existing skill for Aptitude",
       "Inspect a local skill before publishing",
       "Publish a local skill to Aptitude",
       "Inspect a registry skill before installing",

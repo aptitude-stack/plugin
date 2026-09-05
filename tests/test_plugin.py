@@ -29,7 +29,7 @@ class AptitudePluginTests(unittest.TestCase):
         self.assertEqual(marketplace["plugins"][0]["name"], "aptitude")
         self.assertEqual(marketplace["plugins"][0]["source"]["path"], "./plugins/aptitude")
         self.assertEqual(manifest["name"], "aptitude")
-        self.assertEqual(manifest["version"], "0.1.9")
+        self.assertEqual(manifest["version"], "0.1.10")
         self.assertEqual(manifest["skills"], "./skills/")
         self.assertEqual(manifest["mcpServers"], "./.mcp.json")
         self.assertEqual(manifest["interface"]["logo"], "./assets/profile-logo.png")
@@ -109,6 +109,34 @@ class AptitudePluginTests(unittest.TestCase):
         ):
             self.assertNotIn(inspection_tool, install_skill)
 
+        prepare_skill = (
+            ROOT / "plugins/aptitude/skills/prepare-aptitude-skill/SKILL.md"
+        ).read_text()
+        for phrase in (
+            "name: prepare-aptitude-skill",
+            "description: Use when",
+            "<skill-root>/draft/",
+            "aptitude.yaml",
+            "aptitude_search_skills",
+            "aptitude_inspect_skill",
+            "README.md",
+            "Preserve useful `scripts/`, `references/`, `assets/`, and `agents/openai.yaml`",
+            "`aptitude.yaml` is a sibling of `SKILL.md`",
+            "must not be nested in `SKILL.md` frontmatter",
+            "If the source path is missing or ambiguous, stop and report",
+            "If local structural validation fails, stop before approval and report the exact issues",
+            "explicit approval",
+            "source has not changed",
+            "temporary sibling backup",
+            "restore",
+            "structural validation",
+            "../references/action-reporting.md",
+        ):
+            self.assertIn(phrase, prepare_skill)
+        self.assertNotIn("aptitude_publisher_inspect_skill", prepare_skill)
+        self.assertNotIn("aptitude_publisher_publish_skill", prepare_skill)
+        self.assertLess(len(prepare_skill.split()), 500)
+
         publish_skill = (ROOT / "plugins/aptitude/skills/publish-skill/SKILL.md").read_text()
         self.assertIn("../inspect-for-publish/SKILL.md", publish_skill)
         self.assertIn("aptitude_publisher_publish_skill", publish_skill)
@@ -153,6 +181,7 @@ class AptitudePluginTests(unittest.TestCase):
                 "inspect-for-install",
                 "inspect-for-publish",
                 "install-skill",
+                "prepare-aptitude-skill",
                 "publish-skill",
             },
         )
@@ -242,15 +271,16 @@ class AptitudePluginTests(unittest.TestCase):
 
         self.assertEqual(
             manifest["description"],
-            "Inspect or publish local skills; inspect or install registry skills.",
+            "Prepare, inspect, publish, and install skills.",
         )
         self.assertEqual(
             manifest["interface"]["shortDescription"],
-            "Inspect, publish, and install skills",
+            "Prepare, inspect, publish, and install skills",
         )
         self.assertEqual(
             manifest["interface"]["defaultPrompt"],
             [
+                "Prepare an existing skill for Aptitude",
                 "Inspect a local skill before publishing",
                 "Publish a local skill to Aptitude",
                 "Inspect a registry skill before installing",
@@ -323,6 +353,7 @@ class AptitudePluginTests(unittest.TestCase):
             "publish-skill",
             "install-skill",
             "configure-resolver-preferences",
+            "prepare-aptitude-skill",
         ):
             skill = (ROOT / f"plugins/aptitude/skills/{skill_name}/SKILL.md").read_text()
             self.assertIn("../references/action-reporting.md", skill)
@@ -336,6 +367,7 @@ class AptitudePluginTests(unittest.TestCase):
             "aptitude_preview_install_destinations",
             "aptitude_install_skill",
             "aptitude_show_policy",
+            "prepare-aptitude-skill",
         ):
             self.assertIn(action, normalized_reference)
 
@@ -361,7 +393,7 @@ class AptitudePluginTests(unittest.TestCase):
             "Performance evidence is non-persisted",
             "Do not report trust or trust_tier labels or fields",
             "allowed_trust_tiers",
-            "**Action: <inspect-for-publish|inspect-for-install|publish|install|policy update>**",
+            "**Action: <inspect-for-publish|inspect-for-install|publish|install|policy update|prepare-aptitude-skill>**",
             "- Target:",
             "- Result:",
             "- Inspection:",

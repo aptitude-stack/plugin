@@ -63,6 +63,11 @@ for fields that can be collected in the combined selection.
   installation result, and the files or destinations changed. If blocked,
   state that no installation was made.
 
+- `prepare-aptitude-skill`: report the source path, draft path, proposed
+  coordinate, dependency suggestions, structural validation, warnings, and
+  either no changes before approval or the exact replacement and backup paths
+  after approval.
+
 ## Resolver preference actions
 
 - Initial read with `aptitude_show_policy`: report effective selection, each
@@ -78,7 +83,7 @@ for fields that can be collected in the combined selection.
 ### Report format
 
 ```markdown
-**Action: <inspect-for-publish|inspect-for-install|publish|install|policy update>**
+**Action: <inspect-for-publish|inspect-for-install|publish|install|policy update|prepare-aptitude-skill>**
 - Target: <skill, path, scope, registry, or configuration layer>
 - Result: <concise user-visible outcome, including status when useful>
 - Inspection: <inspection status with validation and gate result; Publisher only>

@@ -2,16 +2,16 @@
 
 Aptitude is a registry for versioned AI-agent skills. Its resolver searches the registry, applies policy, resolves dependencies, and installs verified skill bundles. Its publisher validates a local skill folder before uploading it to the registry.
 
-This Codex plugin packages four Aptitude workflows plus the resolver and
-publisher MCPs: inspect a local skill before publishing, publish a local skill,
-inspect a registry skill before installing, and install a registry skill. It
-does not replace Aptitude's resolver or publisher; it calls their released
-interfaces.
+This Codex plugin packages six Aptitude workflows plus the resolver and
+publisher MCPs: prepare an existing skill, inspect a local skill before
+publishing, publish a local skill, inspect a registry skill before installing,
+install a registry skill, and configure resolver preferences. It does not
+replace Aptitude's resolver or publisher; it calls their released interfaces.
 
 Plugins are installable packages that can combine skills and MCP servers. This
-plugin contains the `inspect-for-publish`, `publish-skill`,
-`inspect-for-install`, and `install-skill` workflows, plus resolver preference
-configuration. See [OpenAI's plugin architecture](https://developers.openai.com/plugins/concepts/plugins).
+plugin contains the `prepare-aptitude-skill`, `inspect-for-publish`,
+`publish-skill`, `inspect-for-install`, and `install-skill` workflows, plus
+resolver preference configuration. See [OpenAI's plugin architecture](https://developers.openai.com/plugins/concepts/plugins).
 
 ## How to install
 
@@ -52,6 +52,13 @@ without installing project/skill files or mutating the registry; advisory cache
 updates may occur. Then the `install-skill` workflow previews destinations and
 asks for confirmation. You must provide the selected coordinate, target agent,
 and scope before it writes files.
+
+### Prepare a skill
+
+Ask Codex to adapt an existing skill for Aptitude. The `prepare-aptitude-skill`
+workflow creates `<skill-root>/draft/`, uses registry discovery for dependency
+suggestions, validates the draft locally, and requires approval before replacing
+the original. It neither invokes Aptitude Publisher nor publishes.
 
 ### Publish a skill
 
